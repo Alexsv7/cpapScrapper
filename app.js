@@ -5,69 +5,73 @@ var request = require('request');
 var cheerio = require('cheerio');
 var app = express();
 var http = require('http')
-
 var excelWriter = require("./excelWriter.js");
-
-
 var EventEmitter = require('events').EventEmitter;
 var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
+var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/mask-type/nasal.aspx?sortorder=1&page=1";
 var _lastPageReached = false;
-
+var _ProductUrls = [];
 
 app.get('/scrape', function (req, res) {
-    request(_ProductListUrl, function (error, response, html) {
-        if (!error) {
-            var $ = cheerio.load(html);
-
-            $('#products').filter(function () {
-                debugger;
-                var data = $(this);
-                var productsUrls = data.find('.SingleProductDisplayName a');
-                
-
-               // _ProductsCount = productsUrls.length;
-                for (var i = 0; i < productsUrls.length; i++) {
-                    var link = "http://www.cpapsupplyusa.com" + $(productsUrls[i]).attr('href');
-                    parseProduct(link);
-                }
-            });
-            res.send('ok');
-        }
-    })
+    fillProductLinks(_ProductListUrl);
+    res.send('ok');
+    // request(_ProductListUrl, function (error, response, html) {
+    //     if (!error) {
+    //         var $ = cheerio.load(html);
+    //         $('#products').filter(function () {
+    //             debugger;
+    //             var data = $(this);
+    //             var productsUrls = data.find('.SingleProductDisplayName a');
+    //             // _ProductsCount = productsUrls.length;
+    //             for (var i = 0; i < productsUrls.length; i++) {
+    //                 var link = "http://www.cpapsupplyusa.com" + $(productsUrls[i]).attr('href');
+    //                 parseProduct(link);
+    //             }
+    //         });
+    //     }
+    // })
 })
 app.listen('8081')
 exports = module.exports = app;
 
-
-
-var getPagesProductLinks = function (currentLink){
-    request(_ProductListUrl, function (error, response, html) {
+var fillProductLinks = function (currentLink) {
+    request(currentLink, function (error, response, html) {
         if (!error) {
             var $ = cheerio.load(html);
 
             $('#products').filter(function () {
-                debugger;
+                //debugger;
                 var data = $(this);
                 var productsUrls = data.find('.SingleProductDisplayName a');
-
-                //if has next page
-                
-                
-
-               // _ProductsCount = productsUrls.length;
                 for (var i = 0; i < productsUrls.length; i++) {
-                    var link = "http://www.cpapsupplyusa.com" + $(productsUrls[i]).attr('href');
-                    parseProduct(link);
+                    _ProductUrls.push("http://www.cpapsupplyusa.com" + $(productsUrls[i]).attr('href'));
+                }
+                var nextPageUrl = '';
+                var $aNextPage = $("li[id$='_Pager2_NextListItem'] a");
+                if ($aNextPage.length > 0) {
+                    nextPageUrl = $aNextPage.attr('href');
+                }
+                if (nextPageUrl != '') {
+                    fillProductLinks("http://www.cpapsupplyusa.com" + nextPageUrl);
+                } else {
+                    _emitter.emit('theLastPageLinksParsed');
                 }
             });
-            res.send('ok');
         }
     })
 }
+
+_emitter.on('theLastPageLinksParsed', function () {
+    debugger;
+    for (var i = 0; i < _ProductUrls.length; i++) {
+        //var link = "http://www.cpapsupplyusa.com" + ;
+        parseProduct(_ProductUrls[i]);
+    }
+})
 
 
 _emitter.on('theLastImageParsed', function () {
@@ -125,7 +129,7 @@ var getProduct = function (productId) {
 }
 
 var riseEventIfTheLastProduct = function () {
-    if (_Products.length == _ProductsCount) {
+    if (_Products.length == _ProductUrls.length) {
         debugger;
         _lastProductEventCallCount++;
         _emitter.emit('theLastProductParsed');
