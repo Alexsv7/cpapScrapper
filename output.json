@@ -1,0 +1,598 @@
+[
+    {
+        "Id": 1,
+        "Name": "GENERAL PROVISIONS",
+        "Chapters": [
+            {
+                "DivisionNumber": 1,
+                "ChapterNumber": 1,
+                "ChapterName": "SHORT TITLE, CONSTRUCTION, APPLICATION AND SUBJECTMATTER OF THE CODE ",
+                "StartArticleNumber": 1101,
+                "EndArticleNumber": 1108,
+                "Href": "/cgi-bin/displaycode?section=com&group=01001-02000&file=1101-1108"
+            },
+            {
+                "DivisionNumber": 1,
+                "ChapterNumber": 2,
+                "ChapterName": "GENERAL DEFINITIONS AND PRINCIPLES OF INTERPRETATION",
+                "StartArticleNumber": 1201,
+                "EndArticleNumber": 1206,
+                "Href": "/cgi-bin/displaycode?section=com&group=01001-02000&file=1201-1206"
+            },
+            {
+                "DivisionNumber": 1,
+                "ChapterNumber": 3,
+                "ChapterName": "TERRITORIAL APPLICABILITY AND GENERAL RULES ",
+                "StartArticleNumber": 1301,
+                "EndArticleNumber": 1310,
+                "Href": "/cgi-bin/displaycode?section=com&group=01001-02000&file=1301-1310"
+            }
+        ]
+    },
+    {
+        "Id": 2,
+        "Name": "SALES",
+        "Chapters": [
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 1,
+                "ChapterName": "SHORT TITLE, GENERAL CONSTRUCTION AND SUBJECT MATTER",
+                "StartArticleNumber": 2101,
+                "EndArticleNumber": 2107,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2101-2107"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 2,
+                "ChapterName": "FORM, FORMATION AND READJUSTMENT OF CONTRACT ",
+                "StartArticleNumber": 2201,
+                "EndArticleNumber": 2210,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2201-2210"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 3,
+                "ChapterName": "GENERAL OBLIGATION AND CONSTRUCTION OF CONTRACT ",
+                "StartArticleNumber": 2301,
+                "EndArticleNumber": 2328,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2301-2328"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 4,
+                "ChapterName": "TITLE, CREDITORS AND GOOD FAITH PURCHASERS ",
+                "StartArticleNumber": 2401,
+                "EndArticleNumber": 2403,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2401-2403"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 5,
+                "ChapterName": "PERFORMANCE ",
+                "StartArticleNumber": 2501,
+                "EndArticleNumber": 2515,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2501-2515"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 6,
+                "ChapterName": "BREACH, REPUDIATION AND EXCUSE ",
+                "StartArticleNumber": 2601,
+                "EndArticleNumber": 2616,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2601-2616"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 7,
+                "ChapterName": "REMEDIES ",
+                "StartArticleNumber": 2701,
+                "EndArticleNumber": 2725,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2701-2725"
+            },
+            {
+                "DivisionNumber": 2,
+                "ChapterNumber": 8,
+                "ChapterName": "RETAIL SALES ",
+                "StartArticleNumber": 2800,
+                "EndArticleNumber": 2801,
+                "Href": "/cgi-bin/displaycode?section=com&group=02001-03000&file=2800-2801"
+            }
+        ]
+    },
+    {
+        "Id": 3,
+        "Name": "NEGOTIABLE INSTRUMENTS",
+        "Chapters": [
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 1,
+                "ChapterName": "GENERAL PROVISIONS AND DEFINITIONS ",
+                "StartArticleNumber": 3101,
+                "EndArticleNumber": 3119,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3101-3119"
+            },
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 2,
+                "ChapterName": "NEGOTIATION, TRANSFER, AND INDORSEMENT ",
+                "StartArticleNumber": 3201,
+                "EndArticleNumber": 3207,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3201-3207"
+            },
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 3,
+                "ChapterName": "ENFORCEMENT OF INSTRUMENTS ",
+                "StartArticleNumber": 3301,
+                "EndArticleNumber": 3312,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3301-3312"
+            },
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 4,
+                "ChapterName": "LIABILITY OF PARTIES ",
+                "StartArticleNumber": 3401,
+                "EndArticleNumber": 3420,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3401-3420"
+            },
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 5,
+                "ChapterName": "DISHONOR ",
+                "StartArticleNumber": 3501,
+                "EndArticleNumber": 3505,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3501-3505"
+            },
+            {
+                "DivisionNumber": 3,
+                "ChapterNumber": 6,
+                "ChapterName": "DISCHARGE AND PAYMENT ",
+                "StartArticleNumber": 3601,
+                "EndArticleNumber": 3605,
+                "Href": "/cgi-bin/displaycode?section=com&group=03001-04000&file=3601-3605"
+            }
+        ]
+    },
+    {
+        "Id": 4,
+        "Name": "BANK DEPOSITS AND COLLECTIONS",
+        "Chapters": [
+            {
+                "DivisionNumber": 4,
+                "ChapterNumber": 1,
+                "ChapterName": "GENERAL PROVISIONS AND DEFINITIONS ",
+                "StartArticleNumber": 4101,
+                "EndArticleNumber": 4111,
+                "Href": "/cgi-bin/displaycode?section=com&group=04001-05000&file=4101-4111"
+            },
+            {
+                "DivisionNumber": 4,
+                "ChapterNumber": 2,
+                "ChapterName": "COLLECTION OF ITEMS: DEPOSITARY AND COLLECTING BANKS",
+                "StartArticleNumber": 4201,
+                "EndArticleNumber": 4216,
+                "Href": "/cgi-bin/displaycode?section=com&group=04001-05000&file=4201-4216"
+            },
+            {
+                "DivisionNumber": 4,
+                "ChapterNumber": 3,
+                "ChapterName": "COLLECTION OF ITEMS: PAYOR BANKS ",
+                "StartArticleNumber": 4301,
+                "EndArticleNumber": 4303,
+                "Href": "/cgi-bin/displaycode?section=com&group=04001-05000&file=4301-4303"
+            },
+            {
+                "DivisionNumber": 4,
+                "ChapterNumber": 4,
+                "ChapterName": "RELATIONSHIP BETWEEN PAYOR BANK AND ITS CUSTOMER ",
+                "StartArticleNumber": 4401,
+                "EndArticleNumber": 4407,
+                "Href": "/cgi-bin/displaycode?section=com&group=04001-05000&file=4401-4407"
+            },
+            {
+                "DivisionNumber": 4,
+                "ChapterNumber": 5,
+                "ChapterName": "COLLECTION OF DOCUMENTARY DRAFTS ",
+                "StartArticleNumber": 4501,
+                "EndArticleNumber": 4504,
+                "Href": "/cgi-bin/displaycode?section=com&group=04001-05000&file=4501-4504"
+            }
+        ]
+    },
+    {
+        "Id": 5,
+        "Name": "LETTERS OF CREDIT ",
+        "Chapters": [
+            {
+                "DivisionNumber": 5,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 5101,
+                "EndArticleNumber": 5118,
+                "Href": "/cgi-bin/displaycode?section=com&group=05001-06000&file=5101-5118"
+            }
+        ]
+    },
+    {
+        "Id": 6,
+        "Name": "BULK SALES ",
+        "Chapters": [
+            {
+                "DivisionNumber": 6,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 6101,
+                "EndArticleNumber": 6111,
+                "Href": "/cgi-bin/displaycode?section=com&group=06001-07000&file=6101-6111"
+            }
+        ]
+    },
+    {
+        "Id": 7,
+        "Name": "DOCUMENTS OF TITLE",
+        "Chapters": [
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 1,
+                "ChapterName": "GENERAL ",
+                "StartArticleNumber": 7101,
+                "EndArticleNumber": 7106,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7101-7106"
+            },
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 2,
+                "ChapterName": "WAREHOUSE RECEIPTS: SPECIAL PROVISIONS ",
+                "StartArticleNumber": 7201,
+                "EndArticleNumber": 7210,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7201-7210"
+            },
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 3,
+                "ChapterName": "BILLS OF LADING: SPECIAL PROVISIONS ",
+                "StartArticleNumber": 7301,
+                "EndArticleNumber": 7309,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7301-7309"
+            },
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 4,
+                "ChapterName": "WAREHOUSE RECEIPTS AND BILLS OF LADING: GENERALOBLIGATIONS ",
+                "StartArticleNumber": 7401,
+                "EndArticleNumber": 7404,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7401-7404"
+            },
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 5,
+                "ChapterName": "WAREHOUSE RECEIPTS AND BILLS OF LADING: NEGOTIATIONAND TRANSFER ",
+                "StartArticleNumber": 7501,
+                "EndArticleNumber": 7509,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7501-7509"
+            },
+            {
+                "DivisionNumber": 7,
+                "ChapterNumber": 6,
+                "ChapterName": "WAREHOUSE RECEIPTS AND BILLS OF LADING:MISCELLANEOUS PROVISIONS ",
+                "StartArticleNumber": 7601,
+                "EndArticleNumber": 7603,
+                "Href": "/cgi-bin/displaycode?section=com&group=07001-08000&file=7601-7603"
+            }
+        ]
+    },
+    {
+        "Id": 8,
+        "Name": "INVESTMENT SECURITIES",
+        "Chapters": [
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 1,
+                "ChapterName": "SHORT TITLE AND GENERAL MATTERS ",
+                "StartArticleNumber": 8101,
+                "EndArticleNumber": 8116,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8101-8116"
+            },
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 2,
+                "ChapterName": "ISSUE AND ISSUER ",
+                "StartArticleNumber": 8201,
+                "EndArticleNumber": 8210,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8201-8210"
+            },
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 3,
+                "ChapterName": "TRANSFER OF CERTIFICATED AND UNCERTIFICATEDSECURITIES ",
+                "StartArticleNumber": 8301,
+                "EndArticleNumber": 8307,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8301-8307"
+            },
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 4,
+                "ChapterName": "REGISTRATION ",
+                "StartArticleNumber": 8401,
+                "EndArticleNumber": 8407,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8401-8407"
+            },
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 5,
+                "ChapterName": "SECURITY ENTITLEMENTS ",
+                "StartArticleNumber": 8501,
+                "EndArticleNumber": 8511,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8501-8511"
+            },
+            {
+                "DivisionNumber": 8,
+                "ChapterNumber": 6,
+                "ChapterName": "TRANSITION PROVISIONS ",
+                "StartArticleNumber": 8601,
+                "EndArticleNumber": 8603,
+                "Href": "/cgi-bin/displaycode?section=com&group=08001-09000&file=8601-8603"
+            }
+        ]
+    },
+    {
+        "Id": 9,
+        "Name": "SECURED TRANSACTIONS",
+        "Chapters": [
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 1,
+                "ChapterName": "GENERAL PROVISIONS ",
+                "StartArticleNumber": 9101,
+                "EndArticleNumber": 9110,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9101-9110"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 2,
+                "ChapterName": "EFFECTIVENESS OF SECURITY AGREEMENT: ATTACHMENT OFSECURITY INTEREST: RIGHTS OF PARTIES TO SECURITY---nAGREEMENT ",
+                "StartArticleNumber": 9201,
+                "EndArticleNumber": 9210,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9201-9210"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 3,
+                "ChapterName": "PERFECTION AND PRIORITY ",
+                "StartArticleNumber": 9301,
+                "EndArticleNumber": 9342,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9301-9342"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 4,
+                "ChapterName": "RIGHTS OF THIRD PARTIES ",
+                "StartArticleNumber": 9401,
+                "EndArticleNumber": 9409,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9401-9409"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 5,
+                "ChapterName": "FILING ",
+                "StartArticleNumber": 9501,
+                "EndArticleNumber": 9528,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9501-9528"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 6,
+                "ChapterName": "DEFAULT ",
+                "StartArticleNumber": 9601,
+                "EndArticleNumber": 9629,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9601-9629"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 7,
+                "ChapterName": "TRANSITION ",
+                "StartArticleNumber": 9701,
+                "EndArticleNumber": 9709,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9701-9709"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 8,
+                "ChapterName": "TRANSITION PROVISIONS FOR 2010 AMENDMENTS ",
+                "StartArticleNumber": 9801,
+                "EndArticleNumber": 9809,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9801-9809"
+            },
+            {
+                "DivisionNumber": 9,
+                "ChapterNumber": 9,
+                "ChapterName": "TRANSITION PROVISIONS FOR 2014 AMENDMENTS ",
+                "StartArticleNumber": 9901,
+                "EndArticleNumber": 9907,
+                "Href": "/cgi-bin/displaycode?section=com&group=09001-10000&file=9901-9907"
+            }
+        ]
+    },
+    {
+        "Id": 10,
+        "Name": "PERSONAL PROPERTY LEASES",
+        "Chapters": [
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 1,
+                "ChapterName": "GENERAL PROVISIONS ",
+                "StartArticleNumber": 10101,
+                "EndArticleNumber": 10107,
+                "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10101-10107"
+            },
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 2,
+                "ChapterName": "FORMATION AND CONSTRUCTION OF LEASE CONTRACT ",
+                "StartArticleNumber": 10201,
+                "EndArticleNumber": 10221,
+                "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10201-10221"
+            },
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 3,
+                "ChapterName": "EFFECT OF LEASE CONTRACT ",
+                "StartArticleNumber": 10301,
+                "EndArticleNumber": 10311,
+                "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10301-10311"
+            },
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 4,
+                "ChapterName": "PERFORMANCE OF LEASED CONTRACT: REPUDIATED,SUBSTITUTED, AND EXCUSED ",
+                "StartArticleNumber": 10401,
+                "EndArticleNumber": 10407,
+                "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10401-10407"
+            },
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 5,
+                "ChapterName": "DEFAULT",
+                "StartArticleNumber": 0,
+                "EndArticleNumber": 0,
+                "Href": "",
+                "Articles": [
+                    {
+                        "DivisionNumber": 10,
+                        "ArticleNumber": 1,
+                        "ArticleId": "In General ",
+                        "StartArticleNumber": 10501,
+                        "EndArticleNumber": 10507,
+                        "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10501-10507"
+                    },
+                    {
+                        "DivisionNumber": 10,
+                        "ArticleNumber": 2,
+                        "ArticleId": "Default by Lessor ",
+                        "StartArticleNumber": 10508,
+                        "EndArticleNumber": 10522,
+                        "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10508-10522"
+                    },
+                    {
+                        "DivisionNumber": 10,
+                        "ArticleNumber": 3,
+                        "ArticleId": "Default by Lessee ",
+                        "StartArticleNumber": 10523,
+                        "EndArticleNumber": 10532,
+                        "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10523-10532"
+                    }
+                ]
+            },
+            {
+                "DivisionNumber": 10,
+                "ChapterNumber": 6,
+                "ChapterName": "TRANSITION PROVISIONS ",
+                "StartArticleNumber": 10600,
+                "EndArticleNumber": null,
+                "Href": "/cgi-bin/displaycode?section=com&group=10001-11000&file=10600"
+            }
+        ]
+    },
+    {
+        "Id": 11,
+        "Name": "FUNDS TRANSFERS",
+        "Chapters": [
+            {
+                "DivisionNumber": 11,
+                "ChapterNumber": 1,
+                "ChapterName": "SUBJECT MATTER AND DEFINITIONS ",
+                "StartArticleNumber": 11101,
+                "EndArticleNumber": 11108,
+                "Href": "/cgi-bin/displaycode?section=com&group=11001-12000&file=11101-11108"
+            },
+            {
+                "DivisionNumber": 11,
+                "ChapterNumber": 2,
+                "ChapterName": "ISSUE AND ACCEPTANCE OF PAYMENT ORDER ",
+                "StartArticleNumber": 11201,
+                "EndArticleNumber": 11212,
+                "Href": "/cgi-bin/displaycode?section=com&group=11001-12000&file=11201-11212"
+            },
+            {
+                "DivisionNumber": 11,
+                "ChapterNumber": 3,
+                "ChapterName": "EXECUTION OF SENDER'S PAYMENT ORDER BY RECEIVINGBANK ",
+                "StartArticleNumber": 11301,
+                "EndArticleNumber": 11305,
+                "Href": "/cgi-bin/displaycode?section=com&group=11001-12000&file=11301-11305"
+            },
+            {
+                "DivisionNumber": 11,
+                "ChapterNumber": 4,
+                "ChapterName": "PAYMENT ",
+                "StartArticleNumber": 11401,
+                "EndArticleNumber": 11406,
+                "Href": "/cgi-bin/displaycode?section=com&group=11001-12000&file=11401-11406"
+            },
+            {
+                "DivisionNumber": 11,
+                "ChapterNumber": 5,
+                "ChapterName": "MISCELLANEOUS PROVISIONS ",
+                "StartArticleNumber": 11501,
+                "EndArticleNumber": 11507,
+                "Href": "/cgi-bin/displaycode?section=com&group=11001-12000&file=11501-11507"
+            }
+        ]
+    },
+    {
+        "Id": 13,
+        "Name": "EFFECTIVE DATE AND REPEALER ",
+        "Chapters": [
+            {
+                "DivisionNumber": 13,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 13101,
+                "EndArticleNumber": 13105,
+                "Href": "/cgi-bin/displaycode?section=com&group=13001-14000&file=13101-13105"
+            }
+        ]
+    },
+    {
+        "Id": 14,
+        "Name": "EFFECTIVE DATE AND TRANSITION PROVISIONS ",
+        "Chapters": [
+            {
+                "DivisionNumber": 14,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 14101,
+                "EndArticleNumber": 14109,
+                "Href": "/cgi-bin/displaycode?section=com&group=14001-15000&file=14101-14109"
+            }
+        ]
+    },
+    {
+        "Id": 15,
+        "Name": "EFFECTIVE DATE AND TRANSITION PROVISIONS ",
+        "Chapters": [
+            {
+                "DivisionNumber": 15,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 15101,
+                "EndArticleNumber": 15104,
+                "Href": "/cgi-bin/displaycode?section=com&group=15001-16000&file=15101-15104"
+            }
+        ]
+    },
+    {
+        "Id": 16,
+        "Name": "EFFECTIVE DATE AND TRANSITION PROVISIONS ",
+        "Chapters": [
+            {
+                "DivisionNumber": 16,
+                "ChapterNumber": 0,
+                "ChapterName": "",
+                "StartArticleNumber": 16101,
+                "EndArticleNumber": 16104,
+                "Href": "/cgi-bin/displaycode?section=com&group=16001-17000&file=16101-16104"
+            }
+        ]
+    }
+]
