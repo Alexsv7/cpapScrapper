@@ -57,14 +57,14 @@ function Workbook() {
     this.Sheets = {};
 }
 
-function writeFile(data) {
+function writeFile(data, fileName) {
     var wb = new Workbook(),
         ws = sheet_from_array_of_arrays(data);
 
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
-    XLSX.writeFile(wb, 'result/result.xlsx');
+    XLSX.writeFile(wb, 'result/' + fileName + 'result.xlsx');
 }
 function sizeSkuGet(size) {
     var sku = '';
@@ -166,7 +166,7 @@ var dataPrepare = function (headers, products) {
     return rows;
 }
 
-exports.writeExcel = function (products) {
+exports.writeExcel = function (products, fileName) {
     debugger;
     var headerArray =
         ['name',
@@ -191,5 +191,6 @@ exports.writeExcel = function (products) {
             'quantity'];
 
     var data = dataPrepare(headerArray, products);   
-    writeFile(data);
+    debugger;
+    writeFile(data, fileName);
 }

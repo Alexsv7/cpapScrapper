@@ -11,29 +11,16 @@ var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
+var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/mask-type/nasal.aspx?sortorder=1&page=1";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/mask-type/nasal.aspx?sortorder=1&page=1";
 var _lastPageReached = false;
 var _ProductUrls = [];
 
 app.get('/scrape', function (req, res) {
     fillProductLinks(_ProductListUrl);
-    res.send('ok');
-    // request(_ProductListUrl, function (error, response, html) {
-    //     if (!error) {
-    //         var $ = cheerio.load(html);
-    //         $('#products').filter(function () {
-    //             debugger;
-    //             var data = $(this);
-    //             var productsUrls = data.find('.SingleProductDisplayName a');
-    //             // _ProductsCount = productsUrls.length;
-    //             for (var i = 0; i < productsUrls.length; i++) {
-    //                 var link = "http://www.cpapsupplyusa.com" + $(productsUrls[i]).attr('href');
-    //                 parseProduct(link);
-    //             }
-    //         });
-    //     }
-    // })
+    res.send('ok');    
 })
 app.listen('8081')
 exports = module.exports = app;
@@ -71,8 +58,18 @@ _emitter.on('theLastPageLinksParsed', function () {
 })
 
 
-_emitter.on('theLastImageParsed', function () {
-    excelWriter.writeExcel(_Products);
+_emitter.on('theLastImageParsed', function () {  
+    var currentdate = new Date(); 
+    var fileName = currentdate.getMinutes() + '' +  currentdate.getSeconds()  + '' +  currentdate.getMilliseconds();// kind of simple giud
+    debugger;
+    var parts = _ProductListUrl.split('/brand/');
+    if (parts.length > 1) {
+       var secondPart =  parts[1].split('.aspx')
+       if (secondPart.length > 0){
+           fileName = 'brand_' + secondPart[0].replace('/','_').replace('.', '_').replace('-', '_') + 'aspx';
+       }
+    }  
+    excelWriter.writeExcel(_Products, fileName);
 });
 
 _emitter.on('theLastProductParsed', function () {
@@ -91,7 +88,7 @@ var parseProduct = function (url) {
         if (!error) {
             var $ = cheerio.load(html);
 
-            $('.product').filter(function () {
+            $('#Container').filter(function () {
                 var data = $(this);
                 var product = parseDetails(data);
                 saveProduct(product);
@@ -132,20 +129,28 @@ var riseEventIfTheLastProduct = function () {
     }
 }
 
-var parseDetails = function (data) {
-    var product = new Product("Mask & Headgear");
-
+var parseDetails = function (data) {   
+    //debugger;
+    var categoryTitle = data.find("li.activeChild a").attr('title');
+    var category = categoryTitle;
+    if (categoryTitle.indexOf('Masks') > 0){
+        category = 'Mask & Headgear';
+    } else if (categoryTitle.indexOf('BiPAP') > 0){
+        category = 'BiPAP Mashine';
+    } 
+    var product = new Product(category);
     product.sku = data.find("span[id$='lblSku']").text();
     product.name = data.find("span[id$='lblName']").text();
     if (product.name.indexOf('Anonymous') > 0) {
         product.name = product.name.split('Anonymous')[0];
     }
     if (product.name.indexOf('Mask & Headgear') > 0) {
-        product.name = product.name.split('Mask & Headgear')[0].trim();
+        product.name = product.name.split('Mask & Headgear')[0].trim() + ' Mask & Headgear';
     } else if (product.name.indexOf('Mask and Headgear') > 0) {
-        product.name = product.name.split('Mask and Headgear')[0].trim();
-    }
-
+        product.name = product.name.split('Mask and Headgear')[0].trim() + ' Mask & Headgear';
+    } else if (product.name.indexOf('Mask with Headgear') > 0) {
+        product.name = product.name.split('Mask with Headgear')[0].trim() + ' Mask & Headgear';
+    } 
     product.price = data.find("span[id$='lblListPrice']").text();
     var priceWithDiscount = data.find("span[id$='lblSitePrice']").text();
 
@@ -170,17 +175,22 @@ var parseDetails = function (data) {
     }
     product.features = data.find('#quickfacts').html();
     if (product.features != undefined) {
-        product.features = product.features.trim();
+        product.features = cleanText(product.features);
     }
     product.description = data.find("#Desc").html();
     if (product.description != undefined) {
-        product.description = product.description.trim();
+        product.description = cleanText(product.description);
     }
     var brandSpan = data.find("span:contains('Brand/Manufacturer:')");
     if (brandSpan != undefined) {
-        product.brand = brandSpan.next("span").html();
+        product.brand = cleanText(brandSpan.next("span").html()).replace('&amp;', '&');
     }
     return product;
+}
+
+var cleanText = function(text){
+    return text.trim().replace('_x000d_','^l').replace('View Specs', '');
+    //todo Slavik add remove View Specs logic with <p>
 }
 
 var isFloat = function (n) {
