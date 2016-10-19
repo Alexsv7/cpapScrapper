@@ -11,13 +11,14 @@ var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
-//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/mask-type/nasal.aspx?sortorder=1&page=1";
+var _Product = "http://www.cpapsupplyusa.com/DeVilbiss-EasyFit-SilkGel-Nasal-Mask.aspx";
 var _lastPageReached = false;
 var _ProductUrls = [];
 
+
 app.get('/scrape', function (req, res) {
-    fillProductLinks(_ProductListUrl);
+    debugger;
+    parseProduct(_Product);
     res.send('ok');
     // request(_ProductListUrl, function (error, response, html) {
     //     if (!error) {
@@ -65,7 +66,7 @@ var fillProductLinks = function (currentLink) {
 }
 
 _emitter.on('theLastPageLinksParsed', function () {
-    for (var i = 0; i < _ProductUrls.length; i++) {      
+    for (var i = 0; i < _ProductUrls.length; i++) {
         parseProduct(_ProductUrls[i]);
     }
 })
