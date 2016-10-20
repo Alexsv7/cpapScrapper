@@ -64,7 +64,9 @@ function writeFile(data, fileName) {
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
-    XLSX.writeFile(wb, 'result/' + fileName + 'result.xlsx');
+    var filePath = 'result/' + fileName + '.xlsx';
+    XLSX.writeFile(wb, filePath);
+    console.log('Result written: ' + filePath)
 }
 function sizeSkuGet(size) {
     var sku = '';
@@ -154,7 +156,7 @@ function oneProductRowsPrepare(product) {
     return rows;
 }
 var dataPrepare = function (headers, products) {
-    debugger;
+    //debugger;
     var rows = [];
     rows.push(headers);
     for (var i = 0; i < products.length; i++) {
@@ -167,7 +169,7 @@ var dataPrepare = function (headers, products) {
 }
 
 exports.writeExcel = function (products, fileName) {
-    debugger;
+    //debugger;
     var headerArray =
         ['name',
             'sku',
@@ -191,6 +193,6 @@ exports.writeExcel = function (products, fileName) {
             'quantity'];
 
     var data = dataPrepare(headerArray, products);   
-    debugger;
+    //debugger;
     writeFile(data, fileName);
 }

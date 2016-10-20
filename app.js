@@ -11,16 +11,28 @@ var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
+//var _Category = 'Mask & Headgear';
+//var _Category = 'BiPAP Mashine';
+
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
-//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
-//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/mask-type/nasal.aspx?sortorder=1&page=1";
+ //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/resmed.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/respironics.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/fisher-paykel.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed.aspx";
+// var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/cpap.aspx";
+ //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/auto-cpap.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/bipap.aspx";
+ //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/Respironics.aspx"; 
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/cpap.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/auto-cpap.aspx";
+ var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
+
 var _lastPageReached = false;
 var _ProductUrls = [];
 
 app.get('/scrape', function (req, res) {
     fillProductLinks(_ProductListUrl);
-    res.send('ok');    
+    res.send(_ProductListUrl);
 })
 app.listen('8081')
 exports = module.exports = app;
@@ -52,23 +64,18 @@ var fillProductLinks = function (currentLink) {
 }
 
 _emitter.on('theLastPageLinksParsed', function () {
-    for (var i = 0; i < _ProductUrls.length; i++) {      
+    for (var i = 0; i < _ProductUrls.length; i++) {
         parseProduct(_ProductUrls[i]);
     }
 })
 
 
-_emitter.on('theLastImageParsed', function () {  
-    var currentdate = new Date(); 
-    var fileName = currentdate.getMinutes() + '' +  currentdate.getSeconds()  + '' +  currentdate.getMilliseconds();// kind of simple giud
+_emitter.on('theLastImageParsed', function () {
     debugger;
-    var parts = _ProductListUrl.split('/brand/');
-    if (parts.length > 1) {
-       var secondPart =  parts[1].split('.aspx')
-       if (secondPart.length > 0){
-           fileName = 'brand_' + secondPart[0].replace('/','_').replace('.', '_').replace('-', '_') + 'aspx';
-       }
-    }  
+    var fileName = _ProductListUrl.replace('http://www.cpapsupplyusa.com/', '')
+    fileName = fileName.replace(new RegExp('/', 'g'), '_');
+    fileName = fileName.replace('.', '_');
+    fileName = fileName.replace(new RegExp('-', 'g'), '_');
     excelWriter.writeExcel(_Products, fileName);
 });
 
@@ -129,15 +136,30 @@ var riseEventIfTheLastProduct = function () {
     }
 }
 
-var parseDetails = function (data) {   
-    //debugger;
-    var categoryTitle = data.find("li.activeChild a").attr('title');
-    var category = categoryTitle;
-    if (categoryTitle.indexOf('Masks') > 0){
+var parseDetails = function (data) {
+    // var categoryTitle = data.find("li.activeChild")
+    // var c1= categoryTitle.find("a:first").attr('title');
+    // var _Category = 'Mask & Headgear';
+    // var _Category = 'BiPAP Mashine';
+    var category = 'BiPAP Mashine';
+    if (_ProductListUrl.indexOf('cpap-masks') > 0) {
         category = 'Mask & Headgear';
-    } else if (categoryTitle.indexOf('BiPAP') > 0){
-        category = 'BiPAP Mashine';
-    } 
+    }
+    // var lis = data.find('#topnav')[0].children;
+    // if (lis != undefined) {
+    //     for (var i = 0; i < lis.length; i++) {
+    //         if (lis[i].attribs != undefined &&
+    //             lis[i].attribs.class != undefined &&
+    //             lis[i].attribs.class == 'activeChild') {
+    //             category = lis[i].children[0].attribs.title;
+    //         }
+    //     }
+    // }
+    // if (category.indexOf('Masks') > 0) {
+    //     category = 'Mask & Headgear';
+    // } else if (category.indexOf('BiPAP') > 0) {
+    //     category = 'BiPAP Mashine';
+    // }
     var product = new Product(category);
     product.sku = data.find("span[id$='lblSku']").text();
     product.name = data.find("span[id$='lblName']").text();
@@ -150,7 +172,7 @@ var parseDetails = function (data) {
         product.name = product.name.split('Mask and Headgear')[0].trim() + ' Mask & Headgear';
     } else if (product.name.indexOf('Mask with Headgear') > 0) {
         product.name = product.name.split('Mask with Headgear')[0].trim() + ' Mask & Headgear';
-    } 
+    }
     product.price = data.find("span[id$='lblListPrice']").text();
     var priceWithDiscount = data.find("span[id$='lblSitePrice']").text();
 
@@ -166,8 +188,8 @@ var parseDetails = function (data) {
             product.sizeOptions.push(sizes[index].children[0].data);
     } else {
         var selectOptions = data.find("select[id$='ChoiceList'] option");
-        if (selectOptions != undefined && 
-            selectOptions.length > 0 && 
+        if (selectOptions != undefined &&
+            selectOptions.length > 0 &&
             selectOptions[0].children[0].data == 'Select a Size') {
             for (var index = 1; index < selectOptions.length; index++)
                 product.sizeOptions.push(selectOptions[index].children[0].data);
@@ -188,8 +210,10 @@ var parseDetails = function (data) {
     return product;
 }
 
-var cleanText = function(text){
-    return text.trim().replace('_x000d_','^l').replace('View Specs', '');
+var cleanText = function (text) {
+    if (text != null && text != undefined && text != '')
+        return text.trim().replace('_x000d_', '^l').replace('View Specs', '');
+    return '';
     //todo Slavik add remove View Specs logic with <p>
 }
 
