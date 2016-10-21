@@ -11,21 +11,22 @@ var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
+var _ProductImagesCount = [];
 //var _Category = 'Mask & Headgear';
 //var _Category = 'BiPAP Mashine';
 
-//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
- //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/resmed.aspx";
+var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/resmed.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/respironics.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/fisher-paykel.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed.aspx";
 // var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/cpap.aspx";
- //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/auto-cpap.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/auto-cpap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/bipap.aspx";
- //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/Respironics.aspx"; 
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/Respironics.aspx"; 
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/cpap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/auto-cpap.aspx";
- var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
+// var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
 
 var _lastPageReached = false;
 var _ProductUrls = [];
@@ -222,32 +223,69 @@ var isFloat = function (n) {
     return Number(n) == n && n % 1 != 0;
 }
 
+//var _CountOfImagesToDownload = 0;
+var _totalImagesCount = 0;
+var _downloadedImagesCount = 0
+
 var imagesDownload = function (productId) {
+    //debugger;
     var imgZoomUrl = "http://www.cpapsupplyusa.com/ZoomImage.aspx?ProductId=" + productId;
     request(imgZoomUrl, function (error, response, html) {
         if (!error) {
             var $ = cheerio.load(html);
             $('#gallery').filter(function () {
                 var data = $(this);
-                var images = data.find("img");
-                var productId = response.request.uri.href.split('ProductId=')[1];
-
-                var product = getProduct(productId);
-                for (var index = 0; index < images.length; index++) {
+                var anchers = data.find("a");
+                for (var index = 0; index < anchers.length; index++) {
                     if (index <= 4) {
-                        var img = images[index];
-                        var src = $(img).attr('src');
-                        var srcUrlParts = src.split('/');
-                        var imageName = srcUrlParts[srcUrlParts.length - 1];
-                        saveImage(src, imageName);
-                        product.images.push(imageName);
+                        _totalImagesCount++;
+                        var url = $(anchers[index]).attr('href');
+                        downloadBigImage('http://www.cpapsupplyusa.com' + url);
+                        //var img = images[index];
+                        // var src = $(img).attr('src');
+                        // var srcUrlParts = src.split('/');
+                        // var imageName = srcUrlParts[srcUrlParts.length - 1];
+                        // saveImage(src, imageName);
+                        // product.images.push(imageName);
                     }
                 }
+                //saveProduct(product);
+                // _parsedImagesCount++;
+                // if (_parsedImagesCount == _Products.length) {
+                //     _emitter.emit('theLastImageParsed');
+                // }
+            });
+        }
+    });
+}
+
+//var _ProductImagesCountParsed = 0;
+var downloadBigImage = function (zoomUrl) {
+    request(zoomUrl, function (error, response, html) {
+        if (!error) {
+            var $ = cheerio.load(html);
+            $('#RightColumn').filter(function () {
+                var data = $(this);
+                var img = data.find("img");
+                //var productId = response.request.uri.href.split('ProductId=')[1];
+                var productId = response.request.uri.href.split('ProductId=')[1].split('&')[0];
+                var product = getProduct(productId);
+                var src = $(img).attr('src');
+                var srcUrlParts = src.split('/');
+                var imageName = srcUrlParts[srcUrlParts.length - 1];
+                saveImage(src, imageName);
+                product.images.push(imageName);
                 saveProduct(product);
-                _parsedImagesCount++;
-                if (_parsedImagesCount == _Products.length) {
-                    _emitter.emit('theLastImageParsed');
+                var imagesCount = 
+                _downloadedImagesCount++;
+                if (_downloadedImagesCount == _totalImagesCount){
+                     _emitter.emit('theLastImageParsed');
                 }
+                //_ProductImagesCountParsed ++;
+                // _parsedImagesCount++;
+                // if (_parsedImagesCount == _Products.length) {
+                //     _emitter.emit('theLastImageParsed');
+                // }
             });
         }
     });
@@ -266,25 +304,25 @@ var saveImage = function (uri, filename) {
     }
 }
 
-var writeProductsIntoCsv = function () {
-    var lines = [];
-    for (var i = 0; i < _Products.length; i++) {
-        lines.push({
-            category: _Products[i].category,
-            sku: "'" + _Products[i].sku + "'",
-            name: "'" + _Products[i].name + "'",
-            price: "'" + _Products[i].price + "'",
-            size: "'" + _Products[i].sizeOprions + "'",
-            features: "'" + _Products[i].features + "'",
-            description: "'" + _Products[i].description + "'",
-            brand: "'" + _Products[i].brand + "'",
-        })
-    }
-    var writer = csvWriter();
-    writer.pipe(fs.createWriteStream('result/cpap.csv'));
-    writer.write(lines)
-    writer.end()
-}
+// var writeProductsIntoCsv = function () {
+//     var lines = [];
+//     for (var i = 0; i < _Products.length; i++) {
+//         lines.push({
+//             category: _Products[i].category,
+//             sku: "'" + _Products[i].sku + "'",
+//             name: "'" + _Products[i].name + "'",
+//             price: "'" + _Products[i].price + "'",
+//             size: "'" + _Products[i].sizeOprions + "'",
+//             features: "'" + _Products[i].features + "'",
+//             description: "'" + _Products[i].description + "'",
+//             brand: "'" + _Products[i].brand + "'",
+//         })
+//     }
+//     var writer = csvWriter();
+//     writer.pipe(fs.createWriteStream('result/cpap.csv'));
+//     writer.write(lines)
+//     writer.end()
+// }
 
 
 function Product(category) {
@@ -299,5 +337,10 @@ function Product(category) {
     this.features = "";
     this.description = "";
     this.brand = "";
-    this.images = [];
+    this.images = [];    
+}
+
+function ProductImagesCount(){
+    this.productId = "";
+    this.imagesCount = "";
 }
