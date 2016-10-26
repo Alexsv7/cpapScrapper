@@ -6,6 +6,7 @@ var cheerio = require('cheerio');
 var app = express();
 var http = require('http')
 var excelWriter = require("./excelWriter.js");
+var csvWriter = require("./csvWriter.js");
 var EventEmitter = require('events').EventEmitter;
 var _emitter = new EventEmitter();
 var _Products = [];
@@ -15,18 +16,18 @@ var _ProductImagesCount = [];
 //var _Category = 'Mask & Headgear';
 //var _Category = 'BiPAP Mashine';
 
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/fisher-paykel.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/resmed.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-masks/cpap-masks/brand/respironics.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/fisher-paykel.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed.aspx";
-// var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/cpap.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/cpap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/auto-cpap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/bipap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/Respironics.aspx"; 
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/cpap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/auto-cpap.aspx";
-// var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
+var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
 
 var _lastPageReached = false;
 var _ProductUrls = [];
@@ -77,7 +78,8 @@ _emitter.on('theLastImageParsed', function () {
     fileName = fileName.replace(new RegExp('/', 'g'), '_');
     fileName = fileName.replace('.', '_');
     fileName = fileName.replace(new RegExp('-', 'g'), '_');
-    excelWriter.writeExcel(_Products, fileName);
+    csvWriter.writeCsv(_Products, fileName);
+    //excelWriter.writeExcel(_Products, fileName);
 });
 
 _emitter.on('theLastProductParsed', function () {
@@ -90,7 +92,7 @@ _emitter.on('theLastProductParsed', function () {
 var _parseProductCallCount = 0;
 var _lastProductEventCallCount = 0;
 
-var parseProduct = function (url) {
+var parseProduct = exports.ParseProduct = function (url) {
     _parseProductCallCount++;
     request(url, function (error, response, html) {
         if (!error) {
@@ -196,11 +198,27 @@ var parseDetails = function (data) {
                 product.sizeOptions.push(selectOptions[index].children[0].data);
         }
     }
-    product.features = data.find('#quickfacts').html();
+    product.features = specificationsGet(data);
+
+    //  var result = '';
+    //     var spec = data.find('#Specs');
+    //     if (spec != undefined && spec[0].children != undefined && spec[0].children.length > 0) {
+    //         var index = 0;
+    //         while (spec[0].children[index].attribs == undefined || spec[0].children[index].attribs.class != 'nextTab') {
+    //             product.features += spec[0].children[index].data;
+    //             index++;
+    //         }
+
+    //         $(spec[0].children).each(function () {
+    //             console.log($(this).text());
+    //         });
+    //     }
+
+    //data.find('#quickfacts').html();
     if (product.features != undefined) {
         product.features = cleanText(product.features);
     }
-    product.description = data.find("#Desc").html();
+    product.description = descriptionGet(data);
     if (product.description != undefined) {
         product.description = cleanText(product.description);
     }
@@ -211,9 +229,55 @@ var parseDetails = function (data) {
     return product;
 }
 
+var descriptionGet = function (data) {
+    var desc = data.find('span[id$="_lblDescription"]');
+    return desc.html();
+}
+var resoursesGet = function (html) {
+    var $j = cheerio.load(html);
+
+    $('#Container').filter(function () {
+        var data = $(this);
+        var product = parseDetails(data);
+        saveProduct(product);
+    });
+
+    //slavik todo
+    return '';
+}
+var specificationsGet = function (data) {
+    // var $j = cheerio.load(data);
+    // $j('#Specs').filter(function () {
+    //     var data = $(this);
+    //     var product = parseDetails(data);
+    //     saveProduct(product);
+    // });
+
+    var result = '';
+    var panel = data.find('#Specs .producttypepanel')
+    var legal = data.find('#Specs .legal');
+    //var spec = data.find('#Specs');
+    // var $j = cheerio.load(spec);
+    // var hasClass =  $j('#Specs').hasClass('legal');
+
+    var legal = data.find('#Specs .legal');
+    result = '<div>' + panel.text() + '</div> <br/> <div>' + legal.text() + '</div>';
+
+
+    //var r = resourcesDownload(data, '#Spec');
+    return result;
+}
+
+var resourcesDownload = function (data, id) {
+    var anchers = data.find('#Resources a');
+    debugger;
+    //var $j = cheerio.load(spec);
+}
+
 var cleanText = function (text) {
-    if (text != null && text != undefined && text != '')
+    if (text != null && text != undefined && text != ''){
         return text.trim().replace('_x000d_', '^l').replace('View Specs', '');
+    }
     return '';
     //todo Slavik add remove View Specs logic with <p>
 }
@@ -276,10 +340,10 @@ var downloadBigImage = function (zoomUrl) {
                 saveImage(src, imageName);
                 product.images.push(imageName);
                 saveProduct(product);
-                var imagesCount = 
-                _downloadedImagesCount++;
-                if (_downloadedImagesCount == _totalImagesCount){
-                     _emitter.emit('theLastImageParsed');
+                var imagesCount =
+                    _downloadedImagesCount++;
+                if (_downloadedImagesCount == _totalImagesCount) {
+                    _emitter.emit('theLastImageParsed');
                 }
                 //_ProductImagesCountParsed ++;
                 // _parsedImagesCount++;
@@ -337,10 +401,10 @@ function Product(category) {
     this.features = "";
     this.description = "";
     this.brand = "";
-    this.images = [];    
+    this.images = [];
 }
 
-function ProductImagesCount(){
-    this.productId = "";
-    this.imagesCount = "";
-}
+// function ProductImagesCount() {
+//     this.productId = "";
+//     this.imagesCount = "";
+// }
