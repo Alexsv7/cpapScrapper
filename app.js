@@ -140,29 +140,10 @@ var riseEventIfTheLastProduct = function () {
 }
 
 var parseDetails = function (data) {
-    // var categoryTitle = data.find("li.activeChild")
-    // var c1= categoryTitle.find("a:first").attr('title');
-    // var _Category = 'Mask & Headgear';
-    // var _Category = 'BiPAP Mashine';
     var category = 'BiPAP Mashine';
     if (_ProductListUrl.indexOf('cpap-masks') > 0) {
         category = 'Mask & Headgear';
-    }
-    // var lis = data.find('#topnav')[0].children;
-    // if (lis != undefined) {
-    //     for (var i = 0; i < lis.length; i++) {
-    //         if (lis[i].attribs != undefined &&
-    //             lis[i].attribs.class != undefined &&
-    //             lis[i].attribs.class == 'activeChild') {
-    //             category = lis[i].children[0].attribs.title;
-    //         }
-    //     }
-    // }
-    // if (category.indexOf('Masks') > 0) {
-    //     category = 'Mask & Headgear';
-    // } else if (category.indexOf('BiPAP') > 0) {
-    //     category = 'BiPAP Mashine';
-    // }
+    }  
     var product = new Product(category);
     product.sku = data.find("span[id$='lblSku']").text();
     product.name = data.find("span[id$='lblName']").text();
@@ -200,21 +181,6 @@ var parseDetails = function (data) {
     }
     product.features = specificationsGet(data);
 
-    //  var result = '';
-    //     var spec = data.find('#Specs');
-    //     if (spec != undefined && spec[0].children != undefined && spec[0].children.length > 0) {
-    //         var index = 0;
-    //         while (spec[0].children[index].attribs == undefined || spec[0].children[index].attribs.class != 'nextTab') {
-    //             product.features += spec[0].children[index].data;
-    //             index++;
-    //         }
-
-    //         $(spec[0].children).each(function () {
-    //             console.log($(this).text());
-    //         });
-    //     }
-
-    //data.find('#quickfacts').html();
     if (product.features != undefined) {
         product.features = cleanText(product.features);
     }
@@ -246,25 +212,10 @@ var resoursesGet = function (html) {
     return '';
 }
 var specificationsGet = function (data) {
-    // var $j = cheerio.load(data);
-    // $j('#Specs').filter(function () {
-    //     var data = $(this);
-    //     var product = parseDetails(data);
-    //     saveProduct(product);
-    // });
-
     var result = '';
     var panel = data.find('#Specs .producttypepanel')
     var legal = data.find('#Specs .legal');
-    //var spec = data.find('#Specs');
-    // var $j = cheerio.load(spec);
-    // var hasClass =  $j('#Specs').hasClass('legal');
-
-    var legal = data.find('#Specs .legal');
     result = '<div>' + panel.text() + '</div> <br/> <div>' + legal.text() + '</div>';
-
-
-    //var r = resourcesDownload(data, '#Spec');
     return result;
 }
 
@@ -276,7 +227,7 @@ var resourcesDownload = function (data, id) {
 
 var cleanText = function (text) {
     if (text != null && text != undefined && text != ''){
-        return text.trim().replace('_x000d_', '^l').replace('View Specs', '');
+        return text.trim().replace('_x000d_', '^|').replace('View Specs', '');
     }
     return '';
     //todo Slavik add remove View Specs logic with <p>
@@ -287,12 +238,10 @@ var isFloat = function (n) {
     return Number(n) == n && n % 1 != 0;
 }
 
-//var _CountOfImagesToDownload = 0;
 var _totalImagesCount = 0;
 var _downloadedImagesCount = 0
 
 var imagesDownload = function (productId) {
-    //debugger;
     var imgZoomUrl = "http://www.cpapsupplyusa.com/ZoomImage.aspx?ProductId=" + productId;
     request(imgZoomUrl, function (error, response, html) {
         if (!error) {
@@ -304,26 +253,14 @@ var imagesDownload = function (productId) {
                     if (index <= 4) {
                         _totalImagesCount++;
                         var url = $(anchers[index]).attr('href');
-                        downloadBigImage('http://www.cpapsupplyusa.com' + url);
-                        //var img = images[index];
-                        // var src = $(img).attr('src');
-                        // var srcUrlParts = src.split('/');
-                        // var imageName = srcUrlParts[srcUrlParts.length - 1];
-                        // saveImage(src, imageName);
-                        // product.images.push(imageName);
+                        downloadBigImage('http://www.cpapsupplyusa.com' + url);                       
                     }
-                }
-                //saveProduct(product);
-                // _parsedImagesCount++;
-                // if (_parsedImagesCount == _Products.length) {
-                //     _emitter.emit('theLastImageParsed');
-                // }
+                }               
             });
         }
     });
 }
 
-//var _ProductImagesCountParsed = 0;
 var downloadBigImage = function (zoomUrl) {
     request(zoomUrl, function (error, response, html) {
         if (!error) {
@@ -331,7 +268,6 @@ var downloadBigImage = function (zoomUrl) {
             $('#RightColumn').filter(function () {
                 var data = $(this);
                 var img = data.find("img");
-                //var productId = response.request.uri.href.split('ProductId=')[1];
                 var productId = response.request.uri.href.split('ProductId=')[1].split('&')[0];
                 var product = getProduct(productId);
                 var src = $(img).attr('src');
@@ -344,12 +280,7 @@ var downloadBigImage = function (zoomUrl) {
                     _downloadedImagesCount++;
                 if (_downloadedImagesCount == _totalImagesCount) {
                     _emitter.emit('theLastImageParsed');
-                }
-                //_ProductImagesCountParsed ++;
-                // _parsedImagesCount++;
-                // if (_parsedImagesCount == _Products.length) {
-                //     _emitter.emit('theLastImageParsed');
-                // }
+                }               
             });
         }
     });
@@ -368,27 +299,6 @@ var saveImage = function (uri, filename) {
     }
 }
 
-// var writeProductsIntoCsv = function () {
-//     var lines = [];
-//     for (var i = 0; i < _Products.length; i++) {
-//         lines.push({
-//             category: _Products[i].category,
-//             sku: "'" + _Products[i].sku + "'",
-//             name: "'" + _Products[i].name + "'",
-//             price: "'" + _Products[i].price + "'",
-//             size: "'" + _Products[i].sizeOprions + "'",
-//             features: "'" + _Products[i].features + "'",
-//             description: "'" + _Products[i].description + "'",
-//             brand: "'" + _Products[i].brand + "'",
-//         })
-//     }
-//     var writer = csvWriter();
-//     writer.pipe(fs.createWriteStream('result/cpap.csv'));
-//     writer.write(lines)
-//     writer.end()
-// }
-
-
 function Product(category) {
     this.category = category;
     this.sku = "";
@@ -403,8 +313,3 @@ function Product(category) {
     this.brand = "";
     this.images = [];
 }
-
-// function ProductImagesCount() {
-//     this.productId = "";
-//     this.imagesCount = "";
-// }
