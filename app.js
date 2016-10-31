@@ -4,8 +4,9 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var app = express();
-var http = require('http')
+var http = require('http');
 var excelWriter = require("./excelWriter.js");
+var pdfUtils = require("./pdfUtils");
 var csvWriter = require("./csvWriter.js");
 var EventEmitter = require('events').EventEmitter;
 var _emitter = new EventEmitter();
@@ -26,8 +27,8 @@ var _ProductImagesCount = [];
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/resmed/bipap.aspx";
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/Respironics.aspx"; 
 //var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/cpap.aspx";
-//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/auto-cpap.aspx";
-var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
+var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/auto-cpap.aspx";
+//var _ProductListUrl = "http://www.cpapsupplyusa.com/cpap-machines/cpap-machines/brand/respironics/bipap.aspx";
 
 var _lastPageReached = false;
 var _ProductUrls = [];
@@ -143,7 +144,7 @@ var parseDetails = function (data) {
     var category = 'BiPAP Mashine';
     if (_ProductListUrl.indexOf('cpap-masks') > 0) {
         category = 'Mask & Headgear';
-    }  
+    }
     var product = new Product(category);
     product.sku = data.find("span[id$='lblSku']").text();
     product.name = data.find("span[id$='lblName']").text();
@@ -179,54 +180,64 @@ var parseDetails = function (data) {
                 product.sizeOptions.push(selectOptions[index].children[0].data);
         }
     }
-    product.features = specificationsGet(data);
 
-    if (product.features != undefined) {
-        product.features = cleanText(product.features);
-    }
-    product.description = descriptionGet(data);
-    if (product.description != undefined) {
-        product.description = cleanText(product.description);
-    }
     var brandSpan = data.find("span:contains('Brand/Manufacturer:')");
     if (brandSpan != undefined) {
         product.brand = cleanText(brandSpan.next("span").html()).replace('&amp;', '&');
     }
+
+    product.specifications = cleanText(specificationsGet(data));
+    product.resources = cleanText(resourcesGet(data));
+    product.description = cleanText(descriptionGet(data));
+
     return product;
 }
 
 var descriptionGet = function (data) {
+    pdfsDownload(data, 'Desc');
     var desc = data.find('span[id$="_lblDescription"]');
-    return desc.html();
-}
-var resoursesGet = function (html) {
-    var $j = cheerio.load(html);
-
-    $('#Container').filter(function () {
-        var data = $(this);
-        var product = parseDetails(data);
-        saveProduct(product);
-    });
-
-    //slavik todo
+    if (desc != undefined && desc.length > 0)
+        return desc.html();
     return '';
 }
+
 var specificationsGet = function (data) {
+    pdfsDownload(data, 'Specs')
     var result = '';
     var panel = data.find('#Specs .producttypepanel')
     var legal = data.find('#Specs .legal');
-    result = '<div>' + panel.text() + '</div> <br/> <div>' + legal.text() + '</div>';
+    var panelText = panel != null && panel != undefined ? panel.html() : '';
+    var legalText = legal != null && legal != undefined ? legal.html() : '';
+    if (panelText != '' || legalText != '') {
+        result = '<div>' + panelText + '</div> <br/> <div>' + legalText + '</div>';
+    }
+    return result;
+}
+var resourcesGet = function (data) {
+    pdfsDownload(data, 'Resources #Resources')
+    var result = '';
+    var res = data.find('#Resources #Resources')
+    if (res != undefined && res.length > 0) {
+        result = res.html();
+    }
     return result;
 }
 
-var resourcesDownload = function (data, id) {
-    var anchers = data.find('#Resources a');
-    debugger;
-    //var $j = cheerio.load(spec);
+var pdfsDownload = function (data, containerId) {
+    var anchers = data.find('#' + containerId + ' a');
+    if (anchers.length > 0) {
+        for (var i = 0; i < anchers.length; i++) {
+            if (anchers[i].attribs != undefined &&
+                anchers[i].attribs.href != undefined &&
+                anchers[i].attribs.href.indexOf(/pdfs/) == 0) {
+                pdfUtils.downloadFile(anchers[i].attribs.href);
+            }
+        }
+    }
 }
 
 var cleanText = function (text) {
-    if (text != null && text != undefined && text != ''){
+    if (text != null && text != undefined && text != '') {
         return text.trim().replace('_x000d_', '^|').replace('View Specs', '');
     }
     return '';
@@ -253,9 +264,9 @@ var imagesDownload = function (productId) {
                     if (index <= 4) {
                         _totalImagesCount++;
                         var url = $(anchers[index]).attr('href');
-                        downloadBigImage('http://www.cpapsupplyusa.com' + url);                       
+                        downloadBigImage('http://www.cpapsupplyusa.com' + url);
                     }
-                }               
+                }
             });
         }
     });
@@ -280,7 +291,7 @@ var downloadBigImage = function (zoomUrl) {
                     _downloadedImagesCount++;
                 if (_downloadedImagesCount == _totalImagesCount) {
                     _emitter.emit('theLastImageParsed');
-                }               
+                }
             });
         }
     });
@@ -310,6 +321,8 @@ function Product(category) {
     this.sizeOprions = "";
     this.features = "";
     this.description = "";
+    this.resources = "";
+    this.specifications = "";
     this.brand = "";
     this.images = [];
 }

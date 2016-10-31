@@ -1,8 +1,9 @@
-var writeFile = function (rowList, fileName){
+var writeFile = function (rowList, fileName) {
     debugger;
     var csv = require('csv');
-    var obj = csv();  
+    var obj = csv();
     obj.from.array(rowList).to.path('result/' + fileName + '.csv');
+    console.log('result/' + fileName + '.csv');
 }
 
 //module.exports.csvFileWrite = csvFileWrite;
@@ -12,37 +13,38 @@ function sizeSkuGet(size) {
     if (sizeParts != undefined && sizeParts.length > 1) {
         sku = sizeParts[0].trim();
     }
-    return sku;    
+    return sku;
 }
 function oneProductRowsPrepare(product) {
- var type = product.sizeOptions.length > 0 ? 'configurable' : 'simple';
- var rows = [];
- var row = [
-            product.name,
-            product.sku,
-            type,
-            1, // visibility
-            product.category,
-            product.brand,
-            product.description,
-            product.features
-        ];
-        const imgsCount = 5;
-        for (var imgIndex = 0; imgIndex < imgsCount; imgIndex++) {
-            if (product.images.length < imgIndex) {
-                row.push('');
-            } else {
-                row.push(product.images[imgIndex]);
-            }
+    var type = product.sizeOptions.length > 0 ? 'configurable' : 'simple';
+    var rows = [];
+    var row = [
+        product.name,
+        product.sku,
+        type,
+        1, // visibility
+        product.category,
+        product.brand,
+        product.description,
+        product.specifications,
+        product.resources,
+    ];
+    const imgsCount = 5;
+    for (var imgIndex = 0; imgIndex < imgsCount; imgIndex++) {
+        if (imgIndex < product.images.length) {
+            row.push(product.images[imgIndex]);
+        } else {
+            row.push('');
         }
-        row.push("");
-        row.push("");
-        row.push("");
-        row.push(product.price);
-        row.push(""); //short_description;
-        row.push(""); //weight 
-        row.push("999")//quantity            
-        rows.push(row);
+    }
+    row.push("");
+    row.push("");
+    row.push("");
+    row.push(product.price);
+    row.push(""); //short_description;
+    row.push(""); //weight 
+    row.push("999")//quantity            
+    rows.push(row);
 
     var iteration = 0;
     while (iteration < product.sizeOptions.length) {
@@ -58,7 +60,8 @@ function oneProductRowsPrepare(product) {
             '',// category,
             '',// brand,
             '',// description,
-            '',// features
+            '',// specifications
+            '',//resources
             '',// image1
             '',// image2
             '',// image3
@@ -71,21 +74,21 @@ function oneProductRowsPrepare(product) {
             '', // short_description
             '', //weight
             '999' //quantity           
-        ];           
+        ];
         rows.push(row);
         iteration++;
     }
     return rows;
 }
 var dataPrepare = function (headers, products) {
-    //debugger;
+    debugger;
     var rows = [];
     rows.push(headers);
     for (var i = 0; i < products.length; i++) {
         var oneProductRows = oneProductRowsPrepare(products[i]);
-        for (var j=0; j < oneProductRows.length; j++){
+        for (var j = 0; j < oneProductRows.length; j++) {
             rows.push(oneProductRows[j]);
-        }   
+        }
     }
     return rows;
 }
@@ -101,7 +104,8 @@ exports.writeCsv = function (products, fileName) {
             '_category',
             'brands',
             'description',
-            'features',
+            'specifications',
+            'resources',
             'Main Image',
             '2nd Image',
             '3rd Image',
@@ -115,7 +119,7 @@ exports.writeCsv = function (products, fileName) {
             'weight',
             'quantity'];
 
-    var data = dataPrepare(headerArray, products);   
+    var data = dataPrepare(headerArray, products);
     //debugger;
     writeFile(data, fileName);
 }

@@ -11,7 +11,8 @@ var _emitter = new EventEmitter();
 var _Products = [];
 var _ProductsCount = 0;
 var _parsedImagesCount = 0;
-var _Product = "http://www.cpapsupplyusa.com/DeVilbiss-EasyFit-SilkGel-Nasal-Mask.aspx";
+//var _Product = "http://www.cpapsupplyusa.com/DeVilbiss-EasyFit-SilkGel-Nasal-Mask.aspx";
+var _Product = "http://www.cpapsupplyusa.com/36012-ResMed-S9-Escape-with-H5i-Humidifier.aspx";
 var _lastPageReached = false;
 var _ProductUrls = [];
 
