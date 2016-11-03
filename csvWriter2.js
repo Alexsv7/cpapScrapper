@@ -1,8 +1,9 @@
 var writeFile = function (rowList, fileName) {
+    debugger;
     var csv = require('csv');
     var obj = csv();
-    obj.from.array(rowList).to.path('result1/' + fileName + '.csv');
-    console.log('result1/' + fileName + '.csv');
+    obj.from.array(rowList).to.path('result/' + fileName + '.csv');
+    console.log('result/' + fileName + '.csv');
 }
 
 //module.exports.csvFileWrite = csvFileWrite;
@@ -17,34 +18,28 @@ function sizeSkuGet(size) {
 function oneProductRowsPrepare(product) {
     var type = product.sizeOptions.length > 0 ? 'configurable' : 'simple';
     var rows = [];
-    var imagesList = '';
-    const imgsCount = 1;
-    for (var imgIndex = 0; imgIndex < imgsCount; imgIndex++) {
-        if (imgIndex < product.images.length) {
-            imagesList +=  product.images[imgIndex];// + "; ";
-        }
-    }
-
     var row = [
         product.name,
         product.sku,
         type,
-        4, // visibility
+        1, // visibility
         product.category,
         product.brand,
-        'product.description',
-        'product.specifications',
-        'product.resources',
-        imagesList,
-        "",//option_1
-        product.price,
-        'product.description',//short_description
-        0,//weight
-        999,// quantity
-        "Default",//_attribute_set,
-        1,//status,
-        0//tax_class_id
+        product.description,
+        product.specifications,
+        product.resources,
     ];
+    const imgsCount = 5;
+    if (product.images.length > 0) {
+        row.push(product.images[0]);
+    }
+    row.push("");
+    row.push("");
+    row.push("");
+    row.push(product.price);
+    row.push(""); //short_description;
+    row.push(""); //weight 
+    row.push("999")//quantity            
     rows.push(row);
 
     var iteration = 0;
@@ -57,21 +52,24 @@ function oneProductRowsPrepare(product) {
             product.name,
             sku,
             "simple",//type
-            1, // visibility,
+            0, // visibility,
             '',// category,
             '',// brand,
             '',// description,
             '',// specifications
             '',//resources
-            '',// image           
-            size,//options_1          
+            '',// image1
+            '',// image2
+            '',// image3
+            '',// image4
+            '',// image5
+            size,//options_1
+            '', // options_2
+            '', // options_3
             '', // price
             '', // short_description
-            0, //weight
-            '999', //quantity       
-            "Default",//_attribute_set,          
-            1,//status,
-            0//tax_class_id    
+            '', //weight
+            '999' //quantity           
         ];
         rows.push(row);
         iteration++;
@@ -95,8 +93,7 @@ var dataPrepare = function (headers, products) {
 exports.writeCsv = function (products, fileName) {
     //debugger;
     var headerArray =
-            [  
-            'name',
+        ['name',
             'sku',
             '_type',
             'visibility',
@@ -104,17 +101,15 @@ exports.writeCsv = function (products, fileName) {
             'brands',
             'description',
             'specifications',
-            'features',
-            'image',           
+            'resources',
+            'image',
             'options_1',
+            'options_2',
+            'options_3',
             'price',
             'short_description',
-            "weight",
-            'quantity',          
-            "_attribute_set",           
-            "status",
-            "tax_class_id",   
-            ];
+            'weight',
+            'quantity'];
 
     var data = dataPrepare(headerArray, products);
     //debugger;
